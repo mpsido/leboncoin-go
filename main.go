@@ -79,8 +79,6 @@ func FizzBuzz(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	s := do_fizzbuzz(3, 5, 100, "fizz", "buzz")
-	fmt.Println(s)
 	r := mux.NewRouter()
 	r.HandleFunc("/", FizzBuzz)
 	http.Handle("/", r)
