@@ -40,16 +40,31 @@ func FizzBuzz(w http.ResponseWriter, r *http.Request) {
 	}
 	sInt2, ok := r.URL.Query()["int2"]
 	if !ok || len(sInt2[0]) < 1 {
+		w.WriteHeader(http.StatusBadRequest)
 		log.Println("Url Param 'int2' is missing")
 		fmt.Fprintf(w, "Url Param 'int2' is missing")
-		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 	sLimit, ok := r.URL.Query()["limit"]
 	if !ok || len(sLimit[0]) < 1 {
+		w.WriteHeader(http.StatusBadRequest)
 		log.Println("Url Param 'limit' is missing")
 		fmt.Fprintf(w, "Url Param 'limit' is missing")
+		return
+	}
+
+	str1, ok := r.URL.Query()["str1"]
+	if !ok || len(str1[0]) < 1 {
 		w.WriteHeader(http.StatusBadRequest)
+		log.Println("Url Param 'str1' is missing")
+		fmt.Fprintf(w, "Url Param 'str1' is missing")
+		return
+	}
+	str2, ok := r.URL.Query()["str2"]
+	if !ok || len(str2[0]) < 1 {
+		w.WriteHeader(http.StatusBadRequest)
+		log.Println("Url Param 'str2' is missing")
+		fmt.Fprintf(w, "Url Param 'str2' is missing")
 		return
 	}
 
@@ -57,7 +72,7 @@ func FizzBuzz(w http.ResponseWriter, r *http.Request) {
 	if int1, err := strconv.ParseUint(sInt1[0], 10, 32); err == nil {
 		if int2, err := strconv.ParseUint(sInt2[0], 10, 32); err == nil {
 			if limit, err := strconv.ParseUint(sLimit[0], 10, 32); err == nil {
-				fmt.Fprintf(w, "%s", do_fizzbuzz(uint(int1), uint(int2), uint(limit), "fizz", "buzz"))
+				fmt.Fprintf(w, "%s", do_fizzbuzz(uint(int1), uint(int2), uint(limit), str1[0], str2[0]))
 			}
 		}
 	}
