@@ -15,16 +15,20 @@ Bonus question :
 - Accept no parameter
 - Return the parameters corresponding to the most used request, as well as the number of hits for this request
 
-## Run the code
+## Install and run
 
+Download the code and select the directory
 ```
 go get github.com/mpsido/leboncoin-go/...
-```
-
-```
 cd $GOPATH/src/mpsido/leboncoin-go
 ```
 
+Download dependencies
 ```
-go run main.go
+make dep
+```
+
+Run the application
+```
+make run
 ```
