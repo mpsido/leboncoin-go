@@ -32,3 +32,9 @@ Run the application
 ```
 make run
 ```
+
+## Call the API
+
+Using a webbrowser you can type the URL: `http://localhost:8080/?int1=2&int2=4&limit=18&str1=fizz&str2=buzz`
+
+Alternatively you can use the following `curl` command `curl localhost:8080/?int1=3\&int2=5\&limit=16\&str1=fizz\&str2=buzz`
