@@ -24,6 +24,11 @@
 #   go-tests = true
 #   unused-packages = true
 
+required = ["github.com/gorilla/mux"]
+
+[[constraint]]
+  name = "github.com/gorilla/mux"
+  version = "1.7.2"
 
 [prune]
   go-tests = true
