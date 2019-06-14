@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/gorilla/mux"
 )
@@ -29,8 +30,37 @@ func do_fizzbuzz(int1 uint, int2 uint, limit uint, str1 string, str2 string) str
 }
 
 func FizzBuzz(w http.ResponseWriter, r *http.Request) {
+
+	sInt1, ok := r.URL.Query()["int1"]
+	if !ok || len(sInt1[0]) < 1 {
+		w.WriteHeader(http.StatusBadRequest)
+		log.Println("Url Param 'int1' is missing")
+		fmt.Fprintf(w, "Url Param 'int1' is missing")
+		return
+	}
+	sInt2, ok := r.URL.Query()["int2"]
+	if !ok || len(sInt2[0]) < 1 {
+		log.Println("Url Param 'int2' is missing")
+		fmt.Fprintf(w, "Url Param 'int2' is missing")
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	sLimit, ok := r.URL.Query()["limit"]
+	if !ok || len(sLimit[0]) < 1 {
+		log.Println("Url Param 'limit' is missing")
+		fmt.Fprintf(w, "Url Param 'limit' is missing")
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
 	w.WriteHeader(http.StatusOK)
-	fmt.Fprintf(w, "%s", do_fizzbuzz(3, 5, 100, "fizz", "buzz"))
+	if int1, err := strconv.ParseUint(sInt1[0], 10, 32); err == nil {
+		if int2, err := strconv.ParseUint(sInt2[0], 10, 32); err == nil {
+			if limit, err := strconv.ParseUint(sLimit[0], 10, 32); err == nil {
+				fmt.Fprintf(w, "%s", do_fizzbuzz(uint(int1), uint(int2), uint(limit), "fizz", "buzz"))
+			}
+		}
+	}
 }
 
 func main() {
