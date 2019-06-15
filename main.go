@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"strings"
 
 	"github.com/gorilla/mux"
 )
@@ -40,9 +41,10 @@ func Stats(w http.ResponseWriter, r *http.Request) {
 			index = k
 		}
 	}
-	w.WriteHeader(http.StatusBadRequest)
+	w.WriteHeader(http.StatusOK)
+	queryVar := strings.Split(index, "-")
 	log.Printf("Most used query is %s, used %d times\n", index, max)
-	fmt.Fprintf(w, "Most used query is %s, used %d times", index, max)
+	fmt.Fprintf(w, "Most used query is ?int1=%s&int2=%s&limit=%s&string1=%s&string2=%s\nUsed %d times", queryVar[0], queryVar[1], queryVar[2], queryVar[3], queryVar[4], max)
 }
 
 func FizzBuzz(w http.ResponseWriter, r *http.Request) {
