@@ -52,3 +52,9 @@ Then you can run inside a docker container using the following command:
 ```
 docker run -it -p 8080:8080 leboncoin-go
 ```
+
+## Heroku deployment:
+
+The application is deployed at this url: `https://protected-atoll-44592.herokuapp.com`
+
+For example try:  `https://protected-atoll-44592.herokuapp.com/?int1=2&int2=4&limit=100&str1=fizz&str2=buzz`
