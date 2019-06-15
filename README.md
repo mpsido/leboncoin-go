@@ -40,3 +40,15 @@ Using a webbrowser you can type the URL: `http://localhost:8080/?int1=2&int2=4&l
 Alternatively you can use the following `curl` command `curl localhost:8080/?int1=3\&int2=5\&limit=16\&str1=fizz\&str2=buzz`
 
 The application also supports `/stats` endpoint: `http://localhost:8080/stats`
+
+## Using docker
+
+First time you need to build the image:
+```
+docker build -t leboncoin-go .
+```
+
+Then you can run inside a docker container using the following command:
+```
+docker run -it -p 8080:8080 leboncoin-go
+```
