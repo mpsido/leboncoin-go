@@ -1,5 +1,5 @@
 run:
-	go run main.go
+	PORT=8080 go run main.go
 
 lint:
 	goimports -w main.go
