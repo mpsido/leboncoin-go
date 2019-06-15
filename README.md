@@ -23,7 +23,7 @@ go get github.com/mpsido/leboncoin-go/...
 cd $GOPATH/src/mpsido/leboncoin-go
 ```
 
-Download dependencies
+Download dependencies(optional)
 ```
 make dep
 ```
@@ -38,3 +38,5 @@ make run
 Using a webbrowser you can type the URL: `http://localhost:8080/?int1=2&int2=4&limit=18&str1=fizz&str2=buzz`
 
 Alternatively you can use the following `curl` command `curl localhost:8080/?int1=3\&int2=5\&limit=16\&str1=fizz\&str2=buzz`
+
+The application also supports `/stats` endpoint: `http://localhost:8080/stats`
