@@ -33,3 +33,9 @@ required = ["github.com/gorilla/mux"]
 [prune]
   go-tests = true
   unused-packages = true
+
+[metadata.heroku]
+  root-package = "github.com/mpsido/leboncoin-go"
+  go-version = "1.10"
+  install = [ "./..." ]
+  ensure = true
