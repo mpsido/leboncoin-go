@@ -1,7 +1,12 @@
 package main
 
 import (
+	"fmt"
+	"net/http"
+	"net/http/httptest"
 	"testing"
+
+	"github.com/gorilla/mux"
 )
 
 func TestFizzbuzz(t *testing.T) {
@@ -12,6 +17,34 @@ func TestFizzbuzz(t *testing.T) {
 
 	s = do_fizzbuzz(3, 5, 18, "fizz", "buzz")
 	if s != " 1, 2, fizz, 4, buzz, fizz, 7, 8, fizz, buzz, 11, fizz, 13, 14, fizzbuzz, 16, 17," {
+		t.Fail()
+	}
+}
+
+func TestEndpoint(t *testing.T) {
+	path := fmt.Sprintf("/?int1=%d&int2=%d&limit=%d&string1=%s&string2=%s", 3, 5, 18, "fizz", "buzz")
+	req, err := http.NewRequest("GET", path, nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	q := req.URL.Query()
+	q.Add("int1", "3")
+	q.Add("int2", "5")
+	q.Add("limit", "18")
+	q.Add("str1", "fizz")
+	q.Add("str2", "buzz")
+	req.URL.RawQuery = q.Encode()
+
+	rr := httptest.NewRecorder()
+
+	router := mux.NewRouter()
+	router.HandleFunc("/", FizzBuzz)
+	router.ServeHTTP(rr, req)
+
+	if rr.Code != http.StatusOK {
+		t.Fatal("application returned an error")
+	}
+	if rr.Body.String() != " 1, 2, fizz, 4, buzz, fizz, 7, 8, fizz, buzz, 11, fizz, 13, 14, fizzbuzz, 16, 17," {
 		t.Fail()
 	}
 }

@@ -6,5 +6,9 @@ lint:
 
 dep: 
 	dep ensure -v
+
 test:
 	go test
+
+linttest:
+	goimports -w main_test.go
