@@ -34,6 +34,10 @@ func do_fizzbuzz(int1 uint, int2 uint, limit uint, str1 string, str2 string) str
 }
 
 func Stats(w http.ResponseWriter, r *http.Request) {
+	if len(statMap) == 0 {
+		fmt.Fprintf(w, "No stats available")
+		return
+	}
 	max := 0
 	index := ""
 	for k, v := range statMap {
