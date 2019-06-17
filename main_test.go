@@ -22,7 +22,7 @@ func TestFizzbuzz(t *testing.T) {
 }
 
 func TestEndpoint(t *testing.T) {
-
+	statMap = make(map[string]int)
 	router := mux.NewRouter()
 	router.HandleFunc("/", FizzBuzz)
 	router.HandleFunc("/stats", Stats)
@@ -79,6 +79,116 @@ func TestEndpoint(t *testing.T) {
 			t.Fatal("application returned an error")
 		}
 		if rr.Body.String() != fmt.Sprintf("Most used query is %s\nUsed %d times", fmt.Sprintf("?int1=%d&int2=%d&limit=%d&string1=%s&string2=%s", 3, 5, 18, "fizz", "buzz"), 1) {
+			t.Fatal(rr.Body.String())
+		}
+	}
+}
+
+func TestEndpointErrors(t *testing.T) {
+	statMap = make(map[string]int)
+	router := mux.NewRouter()
+	router.HandleFunc("/", FizzBuzz)
+	router.HandleFunc("/stats", Stats)
+
+	// test int1 missing
+	{
+		rr := httptest.NewRecorder()
+		req, err := http.NewRequest("GET", "/", nil)
+		if err != nil {
+			t.Fatal(err)
+		}
+		q := req.URL.Query()
+		q.Add("int2", "5")
+		q.Add("limit", "18")
+		q.Add("str1", "fizz")
+		q.Add("str2", "buzz")
+		req.URL.RawQuery = q.Encode()
+
+		router.ServeHTTP(rr, req)
+		if rr.Code != http.StatusBadRequest {
+			t.Fatal("application should have returned an error")
+		}
+		if rr.Body.String() != "Url Param 'int1' is missing" {
+			t.Fatal(rr.Body.String())
+		}
+	}
+	// test int2 missing
+	{
+		rr := httptest.NewRecorder()
+		req, err := http.NewRequest("GET", "/", nil)
+		if err != nil {
+			t.Fatal(err)
+		}
+		q := req.URL.Query()
+		q.Add("int1", "3")
+		q.Add("limit", "18")
+		q.Add("str1", "fizz")
+		q.Add("str2", "buzz")
+		req.URL.RawQuery = q.Encode()
+
+		router.ServeHTTP(rr, req)
+		if rr.Code != http.StatusBadRequest {
+			t.Fatal("application should have returned an error")
+		}
+		if rr.Body.String() != "Url Param 'int2' is missing" {
+			t.Fatal(rr.Body.String())
+		}
+	}
+	// if many query parameters are missing only warn about the first encountered missing parameter
+	{
+		rr := httptest.NewRecorder()
+		req, err := http.NewRequest("GET", "/", nil)
+		if err != nil {
+			t.Fatal(err)
+		}
+		q := req.URL.Query()
+		q.Add("int1", "3")
+		req.URL.RawQuery = q.Encode()
+
+		router.ServeHTTP(rr, req)
+		if rr.Code != http.StatusBadRequest {
+			t.Fatal("application should have returned an error")
+		}
+		if rr.Body.String() != "Url Param 'int2' is missing" {
+			t.Fatal(rr.Body.String())
+		}
+	}
+	// test str1 missing
+	{
+		rr := httptest.NewRecorder()
+		req, err := http.NewRequest("GET", "/", nil)
+		if err != nil {
+			t.Fatal(err)
+		}
+		q := req.URL.Query()
+		q.Add("int1", "3")
+		q.Add("int2", "5")
+		q.Add("limit", "18")
+		q.Add("str2", "buzz")
+		req.URL.RawQuery = q.Encode()
+
+		router.ServeHTTP(rr, req)
+		if rr.Code != http.StatusBadRequest {
+			t.Fatal("application should have returned an error")
+		}
+		if rr.Body.String() != "Url Param 'str1' is missing" {
+			t.Fatal(rr.Body.String())
+		}
+	}
+	// as a result no stat had been registered
+	{
+		rr := httptest.NewRecorder()
+		path := fmt.Sprintf("/stats")
+		req, err := http.NewRequest("GET", path, nil)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		router.ServeHTTP(rr, req)
+		if rr.Code != http.StatusOK {
+			t.Fatal("application returned an error")
+		}
+		if rr.Body.String() != "No stats available" {
 			t.Fatal(rr.Body.String())
 		}
 	}
