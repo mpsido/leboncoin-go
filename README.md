@@ -17,6 +17,9 @@ Bonus question :
 
 ## Install and run
 
+
+[![Build Status](https://travis-ci.com/mpsido/leboncoin-go.svg?branch=master)](https://travis-ci.com/mpsido/leboncoin-go)
+
 Download the code and select the directory
 ```
 go get github.com/mpsido/leboncoin-go/...

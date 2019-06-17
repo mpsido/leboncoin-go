@@ -1,0 +1,16 @@
+language: go
+go:
+  - "1.10.x"
+matrix:
+  include:
+    os:
+      - linux
+      - osx
+    before_install:
+      - curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
+      - go get github.com/mpsido/leboncoin-go
+      - make install-linter
+    install:
+      - make dep
+    script:
+      - make test
