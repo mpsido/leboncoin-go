@@ -1,10 +1,11 @@
 run:
 	PORT=8080 go run main.go
 
-install-linter:
+install-dev:
 	go get golang.org/x/tools/cmd/goimports
+	go get github.com/golang/dep/cmd/dep
 
-lint:
+format:
 	goimports -w main.go
 
 dep: 
@@ -13,5 +14,5 @@ dep:
 test:
 	go test
 
-linttest:
+format-test:
 	goimports -w main_test.go

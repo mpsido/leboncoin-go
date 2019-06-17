@@ -17,7 +17,6 @@ Bonus question :
 
 ## Install and run
 
-
 [![Build Status](https://travis-ci.com/mpsido/leboncoin-go.svg?branch=master)](https://travis-ci.com/mpsido/leboncoin-go)
 
 Download the code and select the directory
@@ -34,6 +33,20 @@ make dep
 Run the application
 ```
 make run
+```
+
+## Dev dependencies
+
+This project is using [dep](https://github.com/golang/dep/blob/master/docs/installation.md) dependency manager.
+
+```
+go get -u github.com/golang/dep/cmd/dep
+```
+
+The go files in this repository are formated using [goimports](https://godoc.org/golang.org/x/tools/cmd/goimports)
+
+```
+go get golang.org/x/tools/cmd/goimports 
 ```
 
 ## Call the API
